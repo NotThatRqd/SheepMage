@@ -1,0 +1,17 @@
+name: SheepMage
+version: '${project.version}'
+main: me.radcriminal77.sheepmage.SheepMage
+api-version: 1.19
+authors: [ RadCriminal77 ]
+description: A plugin unlike any
+depend: [ Vault ]
+commands:
+  SheepWand:
+    description: Gives a player a sheep wand
+    usage: /<command> [player]
+    aliases: [ sw ]
+    permission: sheepmage.sheepwand
+permissions:
+  sheepmage.sheepwand:
+    description: Allows SheepWand command
+    default: op
