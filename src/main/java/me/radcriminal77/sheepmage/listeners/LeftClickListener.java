@@ -67,6 +67,9 @@ public class LeftClickListener implements Listener {
             return;
         }
 
+        // give player some rewards :)
+        getEconomy().depositPlayer(p, 2.0);
+
 
         final ItemMeta meta = wand.getItemMeta();
         assert meta != null; // if the meta was null the isSheepWand check would have been false
