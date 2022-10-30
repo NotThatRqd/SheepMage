@@ -194,7 +194,7 @@ public class RightClickListener implements Listener {
 
         final Byte hasMediumCooldown = data.get(new NamespacedKey(plugin, "has" + Cooldown.MEDIUM.name() + "Cooldown"), PersistentDataType.BYTE);
         if (hasMediumCooldown != null && hasMediumCooldown == 1) mediumMeta.setDisplayName(ChatColor.YELLOW + "Toggle Medium");
-        else mediumMeta.setDisplayName(ChatColor.YELLOW + "Buy Medium: 10 " + economy.currencyNamePlural());
+        else mediumMeta.setDisplayName(ChatColor.YELLOW + "Buy Medium: " + plugin.getConfig().getInt("mediumPrice") + " " + economy.currencyNamePlural());
 
         mediumMeta.setLore(lore);
         medium.setItemMeta(mediumMeta);
@@ -205,7 +205,7 @@ public class RightClickListener implements Listener {
 
         final Byte hasFastCooldown = data.get(new NamespacedKey(plugin, "has" + Cooldown.FAST.name() + "Cooldown"), PersistentDataType.BYTE);
         if (hasFastCooldown != null && hasFastCooldown == 1) fastMeta.setDisplayName(ChatColor.GREEN + "Toggle Fast");
-        else fastMeta.setDisplayName(ChatColor.GREEN + "Buy Fast: 20 " + economy.currencyNamePlural());
+        else fastMeta.setDisplayName(ChatColor.GREEN + "Buy Fast: " + plugin.getConfig().getInt("fastPrice") + " " + economy.currencyNamePlural());
 
         fastMeta.setLore(lore);
         fast.setItemMeta(fastMeta);

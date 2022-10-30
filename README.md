@@ -1,7 +1,8 @@
 # SheepMage
 
 SheepMage is a Minecraft Spigot plugin that adds the "SheepWand". Use /sheepwand [player] (*/sw*) to get a SheepWand.
-In order to use SheepMage you must have [Vault](https://www.spigotmc.org/resources/vault.34315/) and an economy plugin on the server.
+Use /reloadsheepmage to reload the config.yml
+In order to use SheepMage you must have [Vault](https://www.spigotmc.org/resources/vault.34315/) and an economy plugin on your server.
 The only tested version of Minecraft for SheepMage is 1.19.2
 
 # Contributing

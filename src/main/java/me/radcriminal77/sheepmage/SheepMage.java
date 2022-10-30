@@ -1,12 +1,12 @@
 package me.radcriminal77.sheepmage;
 
+import me.radcriminal77.sheepmage.commands.ReloadSheepMage;
 import me.radcriminal77.sheepmage.commands.SheepWandCommand;
 import me.radcriminal77.sheepmage.listeners.LeftClickListener;
 import me.radcriminal77.sheepmage.listeners.LeftClickMenuListener;
 import me.radcriminal77.sheepmage.listeners.RightClickListener;
 import me.radcriminal77.sheepmage.listeners.RightClickMenuListener;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -24,7 +24,9 @@ public final class SheepMage extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
+
+        getConfig().options().copyDefaults(true);
+        saveConfig();
 
         // Get economy plugin
         if (!setupEconomy()) {
@@ -37,6 +39,7 @@ public final class SheepMage extends JavaPlugin {
         setUpdateLorePluginInstance(this);
 
         new SheepWandCommand(this);
+        new ReloadSheepMage(this);
 
         new RightClickListener(this);
         new LeftClickListener(this);

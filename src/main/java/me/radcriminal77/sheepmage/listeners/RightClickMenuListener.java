@@ -49,8 +49,6 @@ public class RightClickMenuListener implements Listener {
 
         final PersistentDataContainer data = meta.getPersistentDataContainer();
 
-//        final Cooldown priorCooldown = Cooldown.valueOf(data.get(new NamespacedKey(plugin, "cooldown"), PersistentDataType.STRING));
-
         switch (item) {
             case RED_WOOL -> {
                 data.set(new NamespacedKey(plugin, "cooldown"), PersistentDataType.STRING, Cooldown.SLOW.name());
@@ -60,7 +58,7 @@ public class RightClickMenuListener implements Listener {
                 if (hasMediumCooldown != null && hasMediumCooldown == 1) {
                     data.set(new NamespacedKey(plugin, "cooldown"), PersistentDataType.STRING, Cooldown.MEDIUM.name());
                 } else {
-                    buyCooldown(p, 10.0, Cooldown.MEDIUM, data);
+                    buyCooldown(p, plugin.getConfig().getInt("mediumPrice"), Cooldown.MEDIUM, data);
                     Bukkit.getScheduler().runTask(plugin, p::closeInventory);
                 }
             }
@@ -69,7 +67,7 @@ public class RightClickMenuListener implements Listener {
                 if (hasFastCooldown != null && hasFastCooldown == 1) {
                     data.set(new NamespacedKey(plugin, "cooldown"), PersistentDataType.STRING, Cooldown.FAST.name());
                 } else {
-                    buyCooldown(p, 20.0, Cooldown.FAST, data);
+                    buyCooldown(p, plugin.getConfig().getInt("fastPrice"), Cooldown.FAST, data);
                     Bukkit.getScheduler().runTask(plugin, p::closeInventory);
                 }
             }

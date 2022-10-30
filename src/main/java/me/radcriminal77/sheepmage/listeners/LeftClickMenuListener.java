@@ -61,7 +61,7 @@ public class LeftClickMenuListener implements Listener {
                     data.set(new NamespacedKey(plugin, "canExplodeBlocks"), PersistentDataType.BYTE, (byte) 1);
                 } else {
 
-                    final EconomyResponse response = getEconomy().withdrawPlayer(p, 10);
+                    final EconomyResponse response = getEconomy().withdrawPlayer(p, plugin.getConfig().getInt("explodeBlocksPrice"));
 
                     if (response.transactionSuccess()) {
                         p.sendMessage(ChatColor.LIGHT_PURPLE + "Bought ability to explode blocks");

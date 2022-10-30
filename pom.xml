@@ -6,7 +6,7 @@
 
     <groupId>me.radcriminal77</groupId>
     <artifactId>SheepMage</artifactId>
-    <version>1.8-SNAPSHOT</version>
+    <version>1.9-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>SheepMage</name>

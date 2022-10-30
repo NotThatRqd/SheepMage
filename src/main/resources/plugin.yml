@@ -11,7 +11,14 @@ commands:
     usage: /<command> [player]
     aliases: [ sw ]
     permission: sheepmage.sheepwand
+  ReloadSheepMage:
+    description: Reload SheepMage's config.yml
+    usage: /<command>
+    permission: sheepmage.reload
 permissions:
   sheepmage.sheepwand:
     description: Allows SheepWand command
+    default: op
+  sheepmage.reload:
+    description: Allows ReloadSheepMage command
     default: op

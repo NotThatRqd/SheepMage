@@ -3,7 +3,6 @@ package me.radcriminal77.sheepmage.listeners;
 import me.radcriminal77.sheepmage.DelayedTask;
 import me.radcriminal77.sheepmage.SheepMage;
 import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -11,7 +10,6 @@ import org.bukkit.entity.Sheep;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -24,7 +22,6 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static me.radcriminal77.sheepmage.SheepMage.getEconomy;
 import static me.radcriminal77.sheepmage.SheepMage.getSheepWand;
@@ -159,7 +156,8 @@ public class LeftClickListener implements Listener {
             if (hasExplodeBlocks == 1) {
                 toggleMeta.setDisplayName(ChatColor.GREEN + "Turn block breaking explosions on");
             } else {
-                toggleMeta.setDisplayName(ChatColor.GREEN + "Buy block breaking explosions: 10 " + economy.currencyNamePlural());
+                toggleMeta.setDisplayName(ChatColor.GREEN + "Buy block breaking explosions: " +
+                        plugin.getConfig().getInt("explodeBlocksPrice") + " " + economy.currencyNamePlural());
             }
         }
 
