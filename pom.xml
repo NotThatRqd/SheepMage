@@ -33,7 +33,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.2</version>
                 <configuration>
-                    <outputDirectory>C:\Users\coope\OneDrive\Documents\testserver\plugins</outputDirectory>
+                    <outputDirectory>${test-server}</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
