@@ -127,6 +127,9 @@ public class RightClickListener implements Listener {
             return;
         }
 
+        // Give player slowness. Time is measured in ticks so seconds * 20 = the amount of seconds in ticks
+        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, (int) (cooldown * 20), 1, true, false, false));
+
         new DelayedTask(() -> {
             loc.set(p.getLocation());
 
