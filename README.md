@@ -17,4 +17,4 @@ And of course set the working directory to your project directory.
 
 # Building jar
 
-To build SheepMage use the run button in Intellij Idea you setup when following the contributing section or run mvn package
+To build SheepMage use the run button in Intellij Idea you setup when following the contributing section or run mvn clean package
