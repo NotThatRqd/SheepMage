@@ -2,7 +2,6 @@ package me.radcriminal77.sheepmage.listeners;
 
 import me.radcriminal77.sheepmage.DelayedTask;
 import me.radcriminal77.sheepmage.SheepMage;
-import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -11,7 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -23,8 +21,7 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static me.radcriminal77.sheepmage.SheepMage.getEconomy;
-import static me.radcriminal77.sheepmage.SheepMage.getSheepWand;
+import static me.radcriminal77.sheepmage.SheepMage.*;
 import static me.radcriminal77.sheepmage.UpdateWandLore.updateWandLore;
 
 public class LeftClickListener implements Listener {
@@ -37,6 +34,54 @@ public class LeftClickListener implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         plugin.getLogger().info(this.getClass().getSimpleName() + " registered");
         this.plugin = plugin;
+
+
+        // Get our list of circle points
+        final ArrayList<Location> circlePoints = new ArrayList<>();
+
+        final float density = 0.1f; // smaller numbers make the particles denser
+        // loop through -0.5, 0, and 0.5
+        for (double i2 = -0.5; i2 <= 0.5; i2 += 0.5) {
+            // loop through a circle and spawn a particle at each point
+            for (double i = 0; i < 2 * Math.PI; i += density) {
+                double x = Math.cos(i) * 2;
+                double z = Math.sin(i) * 2;
+
+                final Location l = new Location(null, x, i2, z);
+
+                circlePoints.add(l);
+            }
+        }
+
+        // code to repeat for every person in left click menu
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
+
+            for (Player p : leftClickPlayers) {
+
+                // Spawn particle at each point in the circle
+                for (Location point : circlePoints) {
+
+                    Location l = p.getEyeLocation().add(point.getX(), point.getY(), point.getZ());
+
+                    // spawn your particle here
+                    Particle.DustTransition dustTransition = new Particle.DustTransition(Color.AQUA, Color.WHITE, 1.0f);
+                    p.spawnParticle(Particle.DUST_COLOR_TRANSITION, l, 10, dustTransition);
+                }
+
+                // give slowness for 15 ticks
+                p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 15, 1, true, false, false));
+
+                // spawn sheep
+                final Sheep sheep = (Sheep) p.getWorld().spawnEntity(p.getLocation().add(1.7, 0, 0), EntityType.SHEEP);
+                sheep.setInvulnerable(true);
+                sheep.setColor(DyeColor.values()[RANDOM.nextInt(SIZE)]);
+                sheep.setCollidable(false);
+                sheep.setAI(false);
+
+                // remove sheep in 20 ticks
+                new DelayedTask(sheep::remove, 20L);
+            }
+        }, 20L, 15L); // 20 tick delay, repeat every 15 ticks
     }
 
     @EventHandler
@@ -60,7 +105,13 @@ public class LeftClickListener implements Listener {
 
         // open gui if sneaking
         if (p.isSneaking()) {
-            wandMenu(e, p, wand);
+            wandMenu(p, wand);
+            return;
+        }
+
+        // player left-clicked inside menu
+        if (leftClickPlayers.contains(p)) {
+            leftClickInMenu(p, wand);
             return;
         }
 
@@ -126,8 +177,43 @@ public class LeftClickListener implements Listener {
 
     }
 
-    private void wandMenu(PlayerInteractEvent e, Player p, ItemStack wand) {
+    private void leftClickInMenu(Player p, ItemStack wand) {
 
+        // if player is looking at positive x by or over 90%
+        if (p.getLocation().getDirection().getX() >= 0.9) {
+
+            ItemMeta meta = wand.getItemMeta();
+            assert meta != null; // if the meta was null the isSheepWand check would have been false
+
+            final PersistentDataContainer data = meta.getPersistentDataContainer();
+
+            final Byte canExplodeBlocks = data.get(new NamespacedKey(plugin, "canExplodeBlocks"), PersistentDataType.BYTE);
+
+            if (canExplodeBlocks == null || canExplodeBlocks == 0) {
+                data.set(new NamespacedKey(plugin, "canExplodeBlocks"), PersistentDataType.BYTE, (byte) 1);
+                p.sendMessage("can explode on");
+            } else {
+                data.set(new NamespacedKey(plugin, "canExplodeBlocks"), PersistentDataType.BYTE, (byte) 0);
+                p.sendMessage("can explode off");
+            }
+
+            meta = updateWandLore(meta);
+            wand.setItemMeta(meta);
+            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+
+        }
+
+    }
+
+    private void wandMenu(Player p, ItemStack wand) {
+
+        if (leftClickPlayers.contains(p)) {
+            leftClickPlayers.remove(p);
+        } else {
+            leftClickPlayers.add(p);
+        }
+
+        /*
         Inventory gui = Bukkit.createInventory(p, 9, "Sheepwand Left-Click Menu");
 
         final Economy economy = getEconomy();
@@ -165,6 +251,8 @@ public class LeftClickListener implements Listener {
 
         gui.setItem(4, toggle);
         p.openInventory(gui);
+
+         */
 
     }
 

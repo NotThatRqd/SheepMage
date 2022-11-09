@@ -9,17 +9,21 @@ import me.radcriminal77.sheepmage.listeners.RightClickMenuListener;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nullable;
 
+import java.util.ArrayList;
+
 import static me.radcriminal77.sheepmage.DelayedTask.setDelayedTaskPluginInstance;
 import static me.radcriminal77.sheepmage.UpdateWandLore.setUpdateLorePluginInstance;
 
 public final class SheepMage extends JavaPlugin {
 
+    public static ArrayList<Player> leftClickPlayers = new ArrayList<>();
     private static Economy econ = null;
 
     @Override
