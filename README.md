@@ -11,7 +11,7 @@ The only tested version of Minecraft for SheepMage is 1.19.2
 To contribute, clone the project using git and push your changes to a new branch and make a pull request.
 
 When opening the project in IntelliJ Idea, click Run -> Edit Configurations and add a Maven configuration or edit the existing one.
-Set the run to `clean package -Dtesterver=INSERT_HERE` and replace INSERT_HERE with the directory of the plugins folder in your server.
+Set the run to `clean package -Dtest-server=INSERT_HERE` and replace INSERT_HERE with the directory of the plugins folder in your server.
 
 And of course set the working directory to your project directory.
 
